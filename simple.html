@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="//unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+  <script src="https://cdn.jotfor.ms/JFCustomWidget.min.js"></script>
+</head>
+<body>
+  <div id="Zone_Widget"></div>
+  <input type="hidden" id="Retour_Widget" />
+
+  <script>
+    JFCustomWidget.subscribe("ready", function () {
+      var brand = JFCustomWidget.getWidgetSetting('MRBrand'); // configurable par formulaire
+      var country = JFCustomWidget.getWidgetSetting('MRCountry') || 'FR';
+
+      $("#Zone_Widget").MR_ParcelShopPicker({
+        Target: "#Retour_Widget",
+        Brand: brand,
+        Country: country,
+        Responsive: true,
+        ShowResultsOnMap: true,
+        OnParcelShopSelected: function (data) {
+          JFCustomWidget.sendData({
+            valid: true,
+            value: JSON.stringify(data) // ID, Nom, Adresse1/2, CP, Ville, Pays, Lat, Long
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
